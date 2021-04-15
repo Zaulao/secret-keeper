@@ -2,6 +2,8 @@ package com.example.secretkeeper
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.example.secretkeeper.data.SecureData
+import com.example.secretkeeper.data.SecureDataDao
 
 class SecureDataViewModel (
         private val secureDataDao: SecureDataDao

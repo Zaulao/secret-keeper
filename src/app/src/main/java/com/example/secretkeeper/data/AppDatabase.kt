@@ -1,4 +1,4 @@
-package com.example.secretkeeper
+package com.example.secretkeeper.data
 
 import android.content.Context
 import androidx.room.Database
