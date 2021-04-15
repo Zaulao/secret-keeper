@@ -12,8 +12,8 @@ interface SecureDataDao {
     fun allSecureData(): LiveData<List<SecureData>>
 
     @Insert
-    fun insert(cheese: SecureData)
+    fun insert(data: SecureData)
 
     @Delete
-    fun delete(cheese: SecureData)
+    fun delete(data: SecureData)
 }

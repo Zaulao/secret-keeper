@@ -1,12 +1,21 @@
 package com.example.secretkeeper
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 
 class SecureDataViewModel (
         private val secureDataDao: SecureDataDao
 ): ViewModel() {
 
-    fun get(): String {
-        return "isOk"
+    fun getSecureData(): LiveData<List<SecureData>> {
+        return secureDataDao.allSecureData()
+    }
+
+    fun insertData(data: SecureData) {
+        secureDataDao.insert(data)
+    }
+
+    fun remove(data: SecureData) {
+        secureDataDao.delete(data)
     }
 }
