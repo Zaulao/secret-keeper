@@ -2,6 +2,8 @@ package com.example.secretkeeper
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.example.secretkeeper.data.SecureData
+import com.example.secretkeeper.data.SecureDataDao
 
 class SecureDataViewModel (
         private val secureDataDao: SecureDataDao
@@ -11,11 +13,11 @@ class SecureDataViewModel (
         return secureDataDao.allSecureData()
     }
 
-    fun insertData(data: SecureData) {
+    fun insertData(data: SecureData) = ioThread {
         secureDataDao.insert(data)
     }
 
-    fun remove(data: SecureData) {
+    fun remove(data: SecureData) = ioThread {
         secureDataDao.delete(data)
     }
 }

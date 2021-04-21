@@ -1,4 +1,4 @@
-package com.example.secretkeeper
+package com.example.secretkeeper.data
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao

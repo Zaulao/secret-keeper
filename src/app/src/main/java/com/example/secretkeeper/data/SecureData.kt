@@ -1,4 +1,4 @@
-package com.example.secretkeeper
+package com.example.secretkeeper.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
