@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: SecureDataViewModel
     private lateinit var dataListLiveData: LiveData<List<SecureData>>
     private var dataList = mutableListOf<SecureData>()
-    private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
     private lateinit var binding : ActivityMainBinding
 
