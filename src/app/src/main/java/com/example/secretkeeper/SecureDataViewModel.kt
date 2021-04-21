@@ -13,11 +13,11 @@ class SecureDataViewModel (
         return secureDataDao.allSecureData()
     }
 
-    fun insertData(data: SecureData) {
+    fun insertData(data: SecureData) = ioThread {
         secureDataDao.insert(data)
     }
 
-    fun remove(data: SecureData) {
+    fun remove(data: SecureData) = ioThread {
         secureDataDao.delete(data)
     }
 }

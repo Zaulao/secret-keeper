@@ -11,6 +11,6 @@ class FileActivity: AppCompatActivity() {
         val nome = intent.getStringExtra("nome")
         val login = intent.getStringExtra("login")
 
-        setContentView(R.layout.file_activity)
+        setContentView(R.layout.file_row)
     }
 }
