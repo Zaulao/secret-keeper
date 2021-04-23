@@ -7,5 +7,5 @@ jobs:
       - name: Checkout the code
         uses: actions/checkout@v2
       - name: Build the app
-	working-directory: ./src
+        working-directory: ./src
         run: ./gradlew build
