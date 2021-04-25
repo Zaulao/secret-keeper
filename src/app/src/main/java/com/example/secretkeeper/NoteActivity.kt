@@ -12,6 +12,7 @@ class NoteActivity : AppCompatActivity() {
 
     private lateinit var viewModel: SecureDataViewModel
     private lateinit var binding: ActivityNoteBinding
+    private var secureData: SecureData? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,9 +20,23 @@ class NoteActivity : AppCompatActivity() {
         binding = ActivityNoteBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        secureData = intent.getParcelableExtra("secure_data")
+
+        binding.title.text = secureData?.name ?: ""
+        binding.note.setText(secureData?.data.toString())
+
         binding.saveNote.setOnClickListener {
             binding.title.text = "Test"
-            viewModel.insertData(SecureData(0, binding.title.text.toString(), "txt",binding.note.text.toString().toByteArray(), Calendar.getInstance().toString()))
+
+            if (secureData != null) {
+                secureData!!.name = binding.title.text.toString()
+                secureData!!.data = binding.note.text.toString().toByteArray()
+                secureData!!.dateCreated = Calendar.getInstance().toString()
+                viewModel.update(secureData!!)
+            } else {
+                viewModel.insertData(SecureData(0, binding.title.text.toString(), "txt",binding.note.text.toString().toByteArray(), Calendar.getInstance().toString()))
+            }
+
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }

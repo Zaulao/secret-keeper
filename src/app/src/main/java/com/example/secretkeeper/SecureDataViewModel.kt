@@ -20,4 +20,8 @@ class SecureDataViewModel (
     fun remove(data: SecureData) = ioThread {
         secureDataDao.delete(data)
     }
+
+    fun update(data: SecureData) = ioThread {
+        secureDataDao.update(data)
+    }
 }

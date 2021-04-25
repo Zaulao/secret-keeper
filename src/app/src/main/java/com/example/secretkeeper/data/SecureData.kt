@@ -1,10 +1,13 @@
 package com.example.secretkeeper.data
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 @Entity
-data class SecureData(@PrimaryKey(autoGenerate = true) val id:Int, val name: String, val format: String, val data: ByteArray, val dateCreated: String) {
+data class SecureData(@PrimaryKey(autoGenerate = true) val id:Int, var name: String, val format: String, var data: ByteArray, var dateCreated: String): Parcelable {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
