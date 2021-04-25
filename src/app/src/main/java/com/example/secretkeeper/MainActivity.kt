@@ -1,5 +1,6 @@
 package com.example.secretkeeper
 
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -46,6 +47,12 @@ class MainActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@MainActivity)
             addItemDecoration(DividerItemDecoration(this@MainActivity, DividerItemDecoration.VERTICAL))
             adapter = SecureDataAdapter(dataList,layoutInflater)
+        }
+
+        binding.addFile.setOnClickListener {
+            val intent = Intent(this, NoteActivity::class.java)
+
+            startActivity(intent)
         }
 
         initSwipeToDelete()
