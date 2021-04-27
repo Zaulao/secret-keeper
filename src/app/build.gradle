@@ -5,12 +5,17 @@ plugins {
 }
 
 apply plugin: 'kotlin-kapt'
+apply plugin: 'org.jetbrains.kotlin.android.extensions'
 
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
     buildFeatures {
         dataBinding true
+    }
+
+    androidExtensions {
+        experimental = true
     }
 
     packagingOptions {
@@ -54,6 +59,7 @@ dependencies {
     implementation 'androidx.room:room-runtime:2.2.5'
     kapt "androidx.room:room-compiler:2.2.5"
     androidTestImplementation "androidx.room:room-testing:2.2.5"
+    implementation "net.zetetic:android-database-sqlcipher:4.4.3@aar"
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

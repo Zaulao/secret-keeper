@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import net.sqlcipher.database.SQLiteDatabase
+import net.sqlcipher.database.SupportFactory
 
 @Database(entities = [SecureData::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
@@ -15,8 +17,11 @@ abstract class AppDatabase : RoomDatabase() {
         @Synchronized
         fun get(context: Context): AppDatabase {
             if (instance == null) {
-                instance = Room.databaseBuilder(context.applicationContext,
-                    AppDatabase::class.java, "database").build()
+                val builder = Room.databaseBuilder(context.applicationContext,
+                    AppDatabase::class.java, "encrypted")
+                val factory = SupportFactory(SQLiteDatabase.getBytes("PassPhrase".toCharArray()))
+                builder.openHelperFactory(factory)
+                instance = builder.build()
             }
             return instance!!
         }
