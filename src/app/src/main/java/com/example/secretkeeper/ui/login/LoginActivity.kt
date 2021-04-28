@@ -169,6 +169,8 @@ class LoginActivity : AppCompatActivity() {
                 BiometricPromptUtils.createBiometricPrompt(this, ::encryptAndStoreServerToken)
             val promptInfo = BiometricPromptUtils.createPromptInfo(this)
             biometricPrompt.authenticate(promptInfo, BiometricPrompt.CryptoObject(cipher))
+        } else {
+            successfulLogin()
         }
     }
 

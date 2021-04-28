@@ -1,5 +1,6 @@
 package com.example.secretkeeper.data
 
+import com.example.secretkeeper.MainApplication.Companion.applicationContext
 import com.example.secretkeeper.data.model.LoggedInUser
 import java.io.IOException
 
@@ -10,9 +11,16 @@ class LoginDataSource {
 
     fun login(password: String): Result<LoggedInUser> {
         try {
-            // TODO: handle loggedInUser authentication
-            val fakeUser = LoggedInUser(java.util.UUID.randomUUID().toString())
-            return Result.Success(fakeUser)
+            val savedPassword = SharedPreferencesHelper.loadPassword(applicationContext())
+
+            if (savedPassword != "" && savedPassword != password) {
+                return Result.Error(Exception("Wrong Password"))
+            }
+
+            SharedPreferencesHelper.savePassword(applicationContext(), password)
+
+            val user = LoggedInUser(password)
+            return Result.Success(user)
         } catch (e: Throwable) {
             return Result.Error(IOException("Error logging in", e))
         }
