@@ -1,8 +1,10 @@
 package com.example.secretkeeper
 
 import android.content.Intent
+import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -10,6 +12,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.secretkeeper.ImageHelper.ImageHelper.saveImageToInternalStorage
 import com.example.secretkeeper.data.SecureData
 import com.example.secretkeeper.databinding.ActivityMainBinding
 
@@ -18,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: SecureDataViewModel
     private lateinit var dataListLiveData: LiveData<List<SecureData>>
     private var dataList = mutableListOf<SecureData>()
+    val REQUEST_IMAGE_CAPTURE = 1
 
     private lateinit var binding : ActivityMainBinding
 
@@ -50,7 +54,30 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        binding.takePhoto.setOnClickListener {
+            dispatchTakePictureIntent()
+        }
+
         initSwipeToDelete()
+    }
+
+    private fun dispatchTakePictureIntent() {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            takePictureIntent.resolveActivity(packageManager)?.also {
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            val imageBitmap = data?.extras?.get("data") as Bitmap
+            val imagePath = saveImageToInternalStorage(imageBitmap)
+            val intent = Intent(this, PhotoActivity::class.java)
+            intent.putExtra(IMAGE_PATH, imagePath.toString())
+            startActivity(intent)
+        }
     }
 
     private fun secureDatabaseListUpdated(secureDataList: List<SecureData>) {
