@@ -22,7 +22,7 @@ class NoteActivity : AppCompatActivity() {
         binding = ActivityNoteBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        secureData = intent.getParcelableExtra("secure_data")
+        secureData = intent.getParcelableExtra(SECURE_DATA)
 
         secureData?.let {
             binding.title.setText(it.name)
@@ -36,7 +36,7 @@ class NoteActivity : AppCompatActivity() {
                 secureData!!.dateCreated = Calendar.getInstance().toString()
                 viewModel.update(secureData!!)
             } else {
-                viewModel.insertData(SecureData(0, binding.title.text.toString(), "txt",binding.note.text.toString().toByteArray(
+                viewModel.insertData(SecureData(0, binding.title.text.toString(), TEXT_FORMTAT,binding.note.text.toString().toByteArray(
                     StandardCharsets.UTF_8), Calendar.getInstance().toString()))
             }
 

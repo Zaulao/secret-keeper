@@ -21,7 +21,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: SecureDataViewModel
     private lateinit var dataListLiveData: LiveData<List<SecureData>>
     private var dataList = mutableListOf<SecureData>()
-    val REQUEST_IMAGE_CAPTURE = 1
 
     private lateinit var binding : ActivityMainBinding
 

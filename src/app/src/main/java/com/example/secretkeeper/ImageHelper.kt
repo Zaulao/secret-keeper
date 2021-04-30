@@ -3,9 +3,8 @@ package com.example.secretkeeper
 import android.content.Context
 import android.content.ContextWrapper
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
+import android.graphics.Matrix
 import android.net.Uri
-import androidx.core.content.ContextCompat
 import com.example.secretkeeper.MainApplication.Companion.applicationContext
 import java.io.File
 import java.io.FileOutputStream
@@ -46,6 +45,14 @@ class ImageHelper {
 
             // Return the saved image uri
             return Uri.parse(file.absolutePath)
+        }
+
+        fun rotateImage(img: Bitmap, degree: Float): Bitmap? {
+            val matrix = Matrix()
+            matrix.postRotate(degree)
+            val rotatedImg = Bitmap.createBitmap(img, 0, 0, img.width, img.height, matrix, true)
+            img.recycle()
+            return rotatedImg
         }
     }
 }
