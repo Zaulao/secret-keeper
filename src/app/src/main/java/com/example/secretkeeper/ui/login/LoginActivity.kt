@@ -13,13 +13,12 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.Button
 import android.widget.EditText
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import com.example.secretkeeper.*
+import com.example.secretkeeper.data.model.LoggedUser
 import com.example.secretkeeper.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
@@ -36,7 +35,7 @@ class LoginActivity : AppCompatActivity() {
             applicationContext,
             SHARED_PREFS_FILENAME,
             Context.MODE_PRIVATE,
-            CIPHERTEXT_WRAPPER
+            CIPHER_TEXT_WRAPPER
         )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -113,7 +112,6 @@ class LoginActivity : AppCompatActivity() {
 
         setResult(Activity.RESULT_OK)
 
-        //Complete and destroy login activity once successful
         finish()
     }
 
@@ -135,7 +133,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun showBiometricPromptForDecryption() {
         ciphertextWrapper?.let { textWrapper ->
-            val secretKeyName = "biometric_sample_encryption_key"
+            val secretKeyName = BIO_SECRET_KEY
             val cipher = cryptographyManager.getInitializedCipherForDecryption(
                 secretKeyName, textWrapper.initializationVector
             )
@@ -163,7 +161,7 @@ class LoginActivity : AppCompatActivity() {
     private fun showBiometricPromptForEncryption() {
         val canAuthenticate = BiometricManager.from(applicationContext).canAuthenticate()
         if (canAuthenticate == BiometricManager.BIOMETRIC_SUCCESS) {
-            val secretKeyName = "biometric_sample_encryption_key"
+            val secretKeyName = BIO_SECRET_KEY
             val cipher = cryptographyManager.getInitializedCipherForEncryption(secretKeyName)
             val biometricPrompt =
                 BiometricPromptUtils.createBiometricPrompt(this, ::encryptAndStoreServerToken)
@@ -184,7 +182,7 @@ class LoginActivity : AppCompatActivity() {
                     applicationContext,
                     SHARED_PREFS_FILENAME,
                     Context.MODE_PRIVATE,
-                    CIPHERTEXT_WRAPPER
+                    CIPHER_TEXT_WRAPPER
                 )
             }
         }

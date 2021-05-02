@@ -16,34 +16,20 @@ class ImageHelper {
 
     object ImageHelper {
         fun saveImageToInternalStorage(bitmap: Bitmap): Uri {
-            // Get the context wrapper instance
             val wrapper = ContextWrapper(applicationContext())
-
-            // Initializing a new file
-            // The bellow line return a directory in internal storage
             var file = wrapper.getDir("images", Context.MODE_PRIVATE)
-
-
-            // Create a file to save the image
             file = File(file, "${UUID.randomUUID()}.jpg")
 
             try {
-                // Get the file output stream
                 val stream: OutputStream = FileOutputStream(file)
-
-                // Compress bitmap
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-
-                // Flush the stream
                 stream.flush()
 
-                // Close stream
                 stream.close()
-            } catch (e: IOException){ // Catch the exception
+            } catch (e: IOException){
                 e.printStackTrace()
             }
 
-            // Return the saved image uri
             return Uri.parse(file.absolutePath)
         }
 

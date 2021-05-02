@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 
 object SharedPreferencesHelper {
-    private val SHARED_PREFS = "sharedPrefs"
-    private val KEY = "password"
+    private const val SHARED_PREFS = "sharedPrefs"
+    private const val KEY = "password"
 
     fun savePassword(context: Context, password: String) {
         val sharedPreferences: SharedPreferences =

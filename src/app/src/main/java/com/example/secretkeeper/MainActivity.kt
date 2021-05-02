@@ -51,6 +51,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, NoteActivity::class.java)
 
             startActivity(intent)
+            finish()
         }
 
         binding.takePhoto.setOnClickListener {
@@ -76,6 +77,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, PhotoActivity::class.java)
             intent.putExtra(IMAGE_PATH, imagePath.toString())
             startActivity(intent)
+            finish()
         }
     }
 

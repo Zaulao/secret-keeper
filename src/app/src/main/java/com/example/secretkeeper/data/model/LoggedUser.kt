@@ -1,4 +1,4 @@
-package com.example.secretkeeper
+package com.example.secretkeeper.data.model
 
 object LoggedUser {
     var token: String? = null

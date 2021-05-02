@@ -3,8 +3,7 @@ package com.example.secretkeeper.ui.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import android.util.Patterns
-import com.example.secretkeeper.LoggedUser
+import com.example.secretkeeper.data.model.LoggedUser
 import com.example.secretkeeper.data.LoginRepository
 import com.example.secretkeeper.data.Result
 
