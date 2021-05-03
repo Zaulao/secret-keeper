@@ -1,9 +1,10 @@
-package com.example.secretkeeper
+package com.example.secretkeeper.securedata
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.secretkeeper.data.SecureData
 import com.example.secretkeeper.data.SecureDataDao
+import com.example.secretkeeper.ioThread
 
 class SecureDataViewModel (
         private val secureDataDao: SecureDataDao

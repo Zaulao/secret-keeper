@@ -1,12 +1,14 @@
-package com.example.secretkeeper
+package com.example.secretkeeper.activity
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.example.secretkeeper.data.SecureData
 import com.example.secretkeeper.databinding.ActivityNoteBinding
-import java.nio.charset.Charset
+import com.example.secretkeeper.securedata.SecureDataViewModel
+import com.example.secretkeeper.securedata.SecureDataViewModelFactory
+import com.example.secretkeeper.utils.SECURE_DATA
+import com.example.secretkeeper.utils.TEXT_FORMTAT
 import java.nio.charset.StandardCharsets
 import java.util.*
 
@@ -39,9 +41,6 @@ class NoteActivity : AppCompatActivity() {
                 viewModel.insertData(SecureData(0, binding.title.text.toString(), TEXT_FORMTAT,binding.note.text.toString().toByteArray(
                     StandardCharsets.UTF_8), Calendar.getInstance().toString()))
             }
-
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
             finish()
         }
     }

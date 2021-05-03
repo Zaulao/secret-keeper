@@ -18,8 +18,12 @@ import android.widget.Toast
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import com.example.secretkeeper.*
+import com.example.secretkeeper.activity.MainActivity
 import com.example.secretkeeper.data.model.LoggedUser
 import com.example.secretkeeper.databinding.ActivityLoginBinding
+import com.example.secretkeeper.utils.BIO_SECRET_KEY
+import com.example.secretkeeper.utils.CIPHER_TEXT_WRAPPER
+import com.example.secretkeeper.utils.SHARED_PREFS_FILENAME
 
 class LoginActivity : AppCompatActivity() {
 

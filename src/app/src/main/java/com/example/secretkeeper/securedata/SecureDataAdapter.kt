@@ -1,4 +1,4 @@
-package com.example.secretkeeper
+package com.example.secretkeeper.securedata
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

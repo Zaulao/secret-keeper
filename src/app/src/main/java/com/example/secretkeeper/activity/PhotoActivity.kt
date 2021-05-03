@@ -1,25 +1,19 @@
-package com.example.secretkeeper
+package com.example.secretkeeper.activity
 
-import android.R
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.media.ExifInterface
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
-import com.example.secretkeeper.ImageHelper.ImageHelper.rotateImage
 import com.example.secretkeeper.data.SecureData
 import com.example.secretkeeper.databinding.ActivityPhotoBinding
+import com.example.secretkeeper.securedata.SecureDataViewModel
+import com.example.secretkeeper.securedata.SecureDataViewModelFactory
+import com.example.secretkeeper.utils.*
 import java.io.File
-import java.io.UTFDataFormatException
+import java.io.IOException
 import java.nio.charset.StandardCharsets
 import java.util.*
 
@@ -30,6 +24,7 @@ class PhotoActivity : AppCompatActivity() {
     private lateinit var binding : ActivityPhotoBinding
     private lateinit var imageUri : Uri
     private var secureData: SecureData? = null
+    private lateinit var currentPhotoPath: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +35,7 @@ class PhotoActivity : AppCompatActivity() {
         secureData = intent.getParcelableExtra(SECURE_DATA)
         imageUri = Uri.parse(intent.getStringExtra(IMAGE_PATH))
 
-        putImageInView()
+        binding.imageView.setImageURI(imageUri)
 
         binding.takePhoto.setOnClickListener {
             dispatchTakePictureIntent()
@@ -63,30 +58,23 @@ class PhotoActivity : AppCompatActivity() {
         }
     }
 
-    private fun putImageInView() {
-        val ei = ExifInterface(imageUri.toString())
-        val orientation: Int = ei.getAttributeInt(
-            ExifInterface.TAG_ORIENTATION,
-            ExifInterface.ORIENTATION_UNDEFINED
-        )
-        val bitmap = BitmapFactory.decodeFile(imageUri.toString())
-        var rotatedBitmap: Bitmap? = null
-
-        rotatedBitmap = when (orientation) {
-            ExifInterface.ORIENTATION_ROTATE_90 -> rotateImage(bitmap, 90F)
-            ExifInterface.ORIENTATION_ROTATE_180 -> rotateImage(bitmap, 180F)
-            ExifInterface.ORIENTATION_ROTATE_270 -> rotateImage(bitmap, 270F)
-            ExifInterface.ORIENTATION_NORMAL -> bitmap
-            else -> bitmap
-        }
-
-        binding.imageView.setImageBitmap(rotatedBitmap)
-    }
-
     private fun dispatchTakePictureIntent() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             takePictureIntent.resolveActivity(packageManager)?.also {
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                val photoFile: File? = try {
+                    ImageHelper.ImageHelper.getExternalImageFile().apply { currentPhotoPath = absolutePath }
+                } catch (ex: IOException) {
+                    null
+                }
+                photoFile?.also {
+                    val photoURI: Uri = FileProvider.getUriForFile(
+                            this,
+                            FILE_PROVIDER,
+                            it
+                    )
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                }
             }
         }
     }
@@ -94,11 +82,14 @@ class PhotoActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            val imageBitmap = data?.extras?.get("data") as Bitmap
             deleteImage()
+            var imageFile = ImageHelper.ImageHelper.getImageFile()
+            val externalFile = File(currentPhotoPath)
+            externalFile.copyTo(imageFile)
+            externalFile.delete()
 
-            imageUri = ImageHelper.ImageHelper.saveImageToInternalStorage(imageBitmap)
-            putImageInView()
+            imageUri = Uri.fromFile(imageFile)
+            binding.imageView.setImageURI(imageUri)
         }
     }
 

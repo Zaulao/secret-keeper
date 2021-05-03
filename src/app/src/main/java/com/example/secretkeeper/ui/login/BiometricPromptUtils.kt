@@ -1,4 +1,4 @@
-package com.example.secretkeeper
+package com.example.secretkeeper.ui.login
 
 import androidx.biometric.BiometricPrompt
 import android.os.Build
@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.example.secretkeeper.R
 
 object BiometricPromptUtils {
     private const val TAG = "BiometricPromptUtils"
